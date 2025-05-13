@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getYoutubeVideoId, getYoutubeThumbnailUrl } from './utils/youtube';
-import { LoadingSpinner } from './components/LoadingSpinner';
+import { RecipeCard } from './components/RecipeCard';
 import type { Recipe } from './types/recipe';
 
 export default function Home() {
@@ -10,13 +10,11 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setDebugInfo(null);
 
     try {
       const videoId = getYoutubeVideoId(url);
@@ -33,10 +31,6 @@ export default function Home() {
       });
 
       const data = await response.json();
-      
-      // Debug logging
-      console.log('Response data:', data);
-      setDebugInfo(JSON.stringify(data, null, 2));
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to extract recipe');
@@ -59,90 +53,131 @@ export default function Home() {
   };
 
   const recipeData = recipe?.recipe?.entities?.recipe;
+  const thumbnailUrl = getYoutubeVideoId(url) ? getYoutubeThumbnailUrl(getYoutubeVideoId(url)!) : '';
 
   return (
-    <main className="min-h-screen p-8 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold text-center mb-8">Video2Recipe</h1>
-      
-      <form onSubmit={handleSubmit} className="mb-8">
-        <div className="flex gap-4">
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Enter YouTube URL (supports regular videos, shorts, and youtu.be links)"
-            className="flex-1 p-3 border rounded-lg"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 disabled:opacity-50 min-w-[120px]"
-          >
-            {loading ? <LoadingSpinner /> : 'Bake'}
-          </button>
-        </div>
-      </form>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          <p className="font-bold">Error:</p>
-          <p>{error}</p>
-          {debugInfo && (
-            <details className="mt-2">
-              <summary className="cursor-pointer">Debug Information</summary>
-              <pre className="mt-2 p-2 bg-red-50 rounded text-sm overflow-auto">
-                {debugInfo}
-              </pre>
-            </details>
-          )}
-        </div>
-      )}
-
-      {loading && (
-        <div className="text-center py-12">
-          <div className="inline-block">
-            <LoadingSpinner />
+    <div style={{ 
+      minHeight: '100vh', 
+      padding: '20px', 
+      backgroundColor: '#f9f4e6'
+    }}>
+      <div style={{ 
+        maxWidth: '800px', 
+        margin: '0 auto 40px auto', 
+        textAlign: 'center'
+      }}>
+        <h1 style={{ 
+          fontSize: '3rem', 
+          marginBottom: '30px', 
+          fontFamily: 'Dancing Script, cursive',
+          color: '#8b5a2b'
+        }}>
+          Video2Recipe
+        </h1>
+        
+        <form onSubmit={handleSubmit} style={{ marginBottom: '25px' }}>
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            gap: '15px',
+            maxWidth: '700px',
+            margin: '0 auto'
+          }}>
+            <div style={{ textAlign: 'left' }}>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: 'bold',
+                color: '#8b5a2b'
+              }}>
+                Enter YouTube URL:
+              </label>
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://www.youtube.com/watch?v=..."
+                style={{ 
+                  width: '100%', 
+                  padding: '12px',
+                  borderRadius: '6px',
+                  border: '1px solid #ddd',
+                  fontSize: '16px'
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{ 
+                backgroundColor: '#8b5a2b',
+                color: 'white',
+                padding: '12px 24px',
+                borderRadius: '6px',
+                border: 'none',
+                fontSize: '16px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+                alignSelf: 'center'
+              }}
+            >
+              {loading ? 'Converting...' : 'Bake Recipe'}
+            </button>
           </div>
-          <p className="text-gray-600 mt-4">
-            Extracting recipe from your video...
-            <br />
-            <span className="text-sm">This may take a minute or two</span>
-          </p>
-        </div>
-      )}
+        </form>
+
+        {error && (
+          <div style={{ 
+            backgroundColor: '#f8d7da', 
+            color: '#721c24',
+            padding: '15px',
+            borderRadius: '6px',
+            marginBottom: '25px',
+            border: '1px solid #f5c6cb',
+            textAlign: 'left'
+          }}>
+            <p style={{ margin: 0 }}>{error}</p>
+          </div>
+        )}
+
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '30px 0' }}>
+            <div style={{ 
+              display: 'inline-block',
+              width: '40px',
+              height: '40px',
+              border: '3px solid rgba(139, 90, 43, 0.3)',
+              borderRadius: '50%',
+              borderTopColor: '#8b5a2b',
+              animation: 'spin 1s linear infinite'
+            }}></div>
+            <style dangerouslySetInnerHTML={{
+              __html: `
+                @keyframes spin {
+                  to { transform: rotate(360deg); }
+                }
+              `
+            }} />
+            <p style={{ 
+              marginTop: '15px',
+              color: '#8b5a2b'
+            }}>
+              Extracting recipe from your video...
+              <br />
+              <span style={{ fontSize: '14px' }}>This may take a minute or two</span>
+            </p>
+          </div>
+        )}
+      </div>
 
       {recipeData && !loading && (
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          {getYoutubeVideoId(url) && (
-            <img
-              src={getYoutubeThumbnailUrl(getYoutubeVideoId(url)!)}
-              alt={recipeData.name}
-              className="w-full h-64 object-cover"
-            />
-          )}
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-4">{recipeData.name}</h2>
-            
-            <div className="mb-6">
-              <h3 className="text-xl font-semibold mb-2">Ingredients</h3>
-              <ul className="list-disc list-inside">
-                {recipeData.ingredients.map((ingredient: string, index: number) => (
-                  <li key={index} className="mb-1">{ingredient}</li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Instructions</h3>
-              <ol className="list-decimal list-inside">
-                {recipeData.steps.map((step: string, index: number) => (
-                  <li key={index} className="mb-2">{step}</li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div>
+        <RecipeCard 
+          recipeName={recipeData.name}
+          ingredients={recipeData.ingredients}
+          steps={recipeData.steps}
+          imageUrl={thumbnailUrl}
+        />
       )}
-    </main>
+    </div>
   );
 }

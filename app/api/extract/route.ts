@@ -1,5 +1,13 @@
 import { NextResponse } from 'next/server';
-import { CloudGlueService } from '@/app/services/cloudglue';
+import { CloudGlue } from '@aviaryhq/cloudglue-js';
+
+const recipeSchema = {
+  recipe: {
+    name: 'string',
+    ingredients: ['string'],
+    steps: ['string'],
+  },
+};
 
 export async function POST(request: Request) {
   try {
@@ -12,12 +20,35 @@ export async function POST(request: Request) {
       );
     }
 
-    const cloudGlue = new CloudGlueService();
-    const recipe = await cloudGlue.extractRecipe(url);
-    
-    console.log('API Response from CloudGlue:', JSON.stringify(recipe, null, 2));
+    const client = new CloudGlue({
+      apiKey: process.env.CLOUDGLUE_API_KEY || '',
+    });
 
-    return NextResponse.json({ recipe });
+    const extractJob = await client.extract.createExtract(url, {
+      schema: recipeSchema,
+      prompt: "Extract the recipe details including name, ingredients list, and step by step instructions from this cooking video",
+    });
+
+    while (
+      extractJob.status === "pending" ||
+      extractJob.status === "processing"
+    ) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      const updatedJob = await client.extract.getExtract(extractJob.job_id);
+      if (updatedJob.status !== extractJob.status) {
+        Object.assign(extractJob, updatedJob);
+      }
+    }
+
+    if (extractJob.status === "completed" && extractJob.data) {
+      return NextResponse.json({ recipe: extractJob.data });
+    }
+
+    return NextResponse.json(
+      { error: 'Recipe extraction failed' },
+      { status: 500 }
+    );
   } catch (error) {
     console.error('Error extracting recipe:', error);
     return NextResponse.json(

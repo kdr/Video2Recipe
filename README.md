@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Video2Recipe
 
-## Getting Started
+![Video2Recipe Demo](./demo.png)
 
-First, run the development server:
+Video2Recipe is an elegant web application that transforms YouTube cooking videos into beautifully formatted recipe cards. Simply paste a YouTube URL, click "Bake Recipe," and watch as our AI extracts the recipe details and presents them in a cookbook-style format.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🎥 **YouTube Integration**: Supports regular YouTube videos, Shorts, and youtu.be links
+- 🤖 **AI-Powered Extraction**: Uses ☁️ CloudGlue API to extract recipe details from video content
+- 📝 **Elegant Recipe Cards**: Presents recipes in a beautiful cookbook-style format
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Input a URL**: Paste any YouTube cooking video URL
+2. **Extract Recipe**: Our AI analyzes the video to identify recipe name, ingredients, and steps
+3. **Get Your Recipe**: View and save your beautifully formatted recipe card
 
-## Learn More
+## Technology Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Next.js, React
+- **Styling**: CSS-in-JS with inline styles
+- **AI Integration**: ☁️ CloudGlue API for recipe extraction
+- **Image Handling**: YouTube thumbnail extraction
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kdr/video-to-recipe-card.git
+   cd video-to-recipe-card
+   ```
 
-## Deploy on Vercel
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Create a `.env.local` file in the root directory with your ☁️ [CloudGlue API](https://cloudglue.dev/) key:
+   ```
+   CLOUDGLUE_API_KEY=your-api-key-here
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Deployment
+
+This project is designed to be easily deployed on Vercel:
+
+1. Push your code to a GitHub repository
+2. Import the project to Vercel
+3. Add your ☁️ CloudGlue API key as an environment variable
+4. Deploy!
+
+## Usage Examples
+
+Perfect for:
+- Saving recipes from your favorite YouTube cooking channels
+- Creating a personal cookbook from online videos
+- Sharing recipes with friends in a clean, readable format
