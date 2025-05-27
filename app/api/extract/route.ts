@@ -13,13 +13,6 @@ export async function POST(request: Request) {
   try {
     const { url } = await request.json();
 
-    if (!url) {
-      return NextResponse.json(
-        { error: 'URL is required' },
-        { status: 400 }
-      );
-    }
-
     const client = new CloudGlue({
       apiKey: process.env.CLOUDGLUE_API_KEY || '',
     });
@@ -27,6 +20,8 @@ export async function POST(request: Request) {
     const extractJob = await client.extract.createExtract(url, {
       schema: recipeSchema,
       prompt: "Extract the recipe details including name, ingredients list, and step by step instructions from this cooking video",
+      enable_segment_level_entities: false,
+      enable_video_level_entities: true,
     });
 
     while (

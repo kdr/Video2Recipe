@@ -7,7 +7,7 @@ Video2Recipe is an elegant web application that transforms YouTube cooking video
 ## Features
 
 - 🎥 **YouTube Integration**: Supports regular YouTube videos, Shorts, and youtu.be links
-- 🤖 **AI-Powered Extraction**: Uses ☁️ CloudGlue API to extract recipe details from video content
+- 🤖 **AI-Powered Extraction**: Uses ☁️ Cloudglue API to extract recipe details from video content
 - 📝 **Elegant Recipe Cards**: Presents recipes in a beautiful cookbook-style format
 
 ## How It Works
@@ -20,7 +20,7 @@ Video2Recipe is an elegant web application that transforms YouTube cooking video
 
 - **Frontend**: Next.js, React
 - **Styling**: CSS-in-JS with inline styles
-- **AI Integration**: ☁️ CloudGlue API for recipe extraction
+- **AI Integration**: ☁️ Cloudglue API for recipe extraction
 - **Image Handling**: YouTube thumbnail extraction
 
 ## Installation
@@ -36,7 +36,7 @@ Video2Recipe is an elegant web application that transforms YouTube cooking video
    npm install
    ```
 
-3. Create a `.env.local` file in the root directory with your ☁️ [CloudGlue API](https://cloudglue.dev/) key:
+3. Create a `.env.local` file in the root directory with your ☁️ [Cloudglue API](https://cloudglue.dev/) key:
    ```
    CLOUDGLUE_API_KEY=your-api-key-here
    ```
@@ -54,7 +54,7 @@ This project is designed to be easily deployed on Vercel:
 
 1. Push your code to a GitHub repository
 2. Import the project to Vercel
-3. Add your ☁️ CloudGlue API key as an environment variable
+3. Add your ☁️ Cloudglue API key as an environment variable
 4. Deploy!
 
 ## Usage Examples
