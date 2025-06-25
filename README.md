@@ -1,4 +1,4 @@
-# Video2Recipe
+# 🍳 Video2Recipe 🎥
 
 ![Video2Recipe Demo](./demo.png)
 
