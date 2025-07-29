@@ -8,6 +8,10 @@ export interface Recipe {
         steps: string[];
       };
     };
-    segment_entities: any[];
+    segment_entities: SegmentEntity[];
   };
+}
+
+export interface SegmentEntity {
+  [key: string]: unknown;
 } 
