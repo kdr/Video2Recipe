@@ -15,6 +15,6 @@ export function getYoutubeVideoId(url: string): string | null {
   return standardMatch ? standardMatch[1] : null;
 }
 
-export function getYoutubeThumbnailUrl(videoId: string, quality: 'default' | 'mqdefault' | 'hqdefault' | 'sddefault' | 'maxresdefault' = 'maxresdefault'): string {
+export function getYoutubeThumbnailUrl(videoId: string, quality: 'default' | 'mqdefault' | 'hqdefault' | 'sddefault' | 'maxresdefault' = 'sddefault'): string {
   return `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
 } 

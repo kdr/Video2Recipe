@@ -1,4 +1,4 @@
-import { getYoutubeVideoId, getYoutubeThumbnailUrl } from '../utils/youtube';
+import Image from 'next/image';
 
 interface RecipeCardProps {
   recipeName: string;
@@ -19,15 +19,14 @@ export function RecipeCard({ recipeName, ingredients, steps, imageUrl }: RecipeC
     }}>
       {/* Banner Image */}
       <div style={{ position: 'relative', width: '100%', height: '320px' }}>
-        <img 
+        <Image 
           src={imageUrl} 
           alt={recipeName}
+          fill
           style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover',
-            display: 'block' 
+            objectFit: 'cover'
           }}
+          sizes="(max-width: 900px) 100vw, 900px"
         />
       </div>
       
