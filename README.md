@@ -27,8 +27,8 @@ Video2Recipe is an elegant web application that transforms YouTube cooking video
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/kdr/video-to-recipe-card.git
-   cd video-to-recipe-card
+   git clone git@github.com:kdr/Video2Recipe.git
+   cd Video2Recipe
    ```
 
 2. Install dependencies:
